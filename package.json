@@ -35,7 +35,7 @@
   "main": "desktop/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/odemaru/git_digest.git"
+    "url": "https://github.com/odemaru/gitboard.git"
   },
   "build": {
     "appId": "com.odemaru.gitboard",
