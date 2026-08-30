@@ -1,0 +1,117 @@
+{
+  "name": "git-digest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,web -c magenta,cyan \"node server/index.js\" \"vite\"",
+    "build:web": "vite build",
+    "start": "npm run build:web && node server/index.js",
+    "desktop": "npm run build:web && electron .",
+    "dist:mac": "npm run build:web && electron-builder --mac",
+    "dist:win": "npm run build:web && electron-builder --win",
+    "dist:all": "npm run build:web && electron-builder --mac --win"
+  },
+  "dependencies": {
+    "@blocknote/core": "^0.39.1",
+    "@blocknote/mantine": "^0.39.1",
+    "@blocknote/react": "^0.39.1",
+    "@fastify/static": "^10.1.3",
+    "fastify": "^5.6.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.4",
+    "concurrently": "^9.2.1",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.3",
+    "vite": "^7.1.9"
+  },
+  "productName": "Gitboard",
+  "description": "Локальный дашборд над всеми твоими git-репозиториями: ветки, гигиена веток, заметки и задачи",
+  "author": "Timofey Gavrikov",
+  "license": "MIT",
+  "main": "desktop/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/odemaru/git_digest.git"
+  },
+  "build": {
+    "appId": "com.odemaru.gitboard",
+    "productName": "Gitboard",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "server/**/*",
+      "desktop/**/*",
+      "web/dist/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "web/dist/**"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "identity": "-",
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "git",
+    "branches",
+    "notes",
+    "dashboard",
+    "electron",
+    "local-first"
+  ]
+}
